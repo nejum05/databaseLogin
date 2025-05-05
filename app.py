@@ -21,7 +21,7 @@ def login():
         try:
             conn = mysql.connector.connect(**DB_CONFIG)
             cursor = conn.cursor()
-            cursor.execute("SELECT * FROM users WHERE username=%s AND password=%s", (username, password))
+            cursor.execute("SELECT * FROM login WHERE username=%s AND password=%s", (username, password))
             result = cursor.fetchone()
             if result:
                 msg = 'Login Successful!'
