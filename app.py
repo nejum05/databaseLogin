@@ -1,7 +1,7 @@
 from flask import Flask, request, render_template_string
 import mysql.connector
 
-app = Flask(_name_)
+app = Flask(__name__)
 
 DB_CONFIG = {
     'host': 'sql12.freesqldatabase.com',
