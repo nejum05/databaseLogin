@@ -3,46 +3,46 @@ import mysql.connector
 
 app = Flask(__name__)
 
+# Replace with your actual db4free credentials
 DB_CONFIG = {
     'host': 'sql12.freesqldatabase.com',
     'user': 'sql12776900',
     'password': 'bl1wU4HfJf',
-    'database': 'sql12776900',
-    'port': 3306
+    'database': 'sql12776900'
 }
 
-@app.route("/", methods=["GET", "POST"])
+@app.route('/', methods=['GET', 'POST'])
 def login():
-    message = ""
-    if request.method == "POST":
-        uname = request.form["username"]
-        pwd = request.form["password"]
+    msg = ''
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
 
         try:
             conn = mysql.connector.connect(**DB_CONFIG)
             cursor = conn.cursor()
-            cursor.execute("SELECT * FROM users WHERE username=%s AND password=%s", (uname, pwd))
+            cursor.execute("SELECT * FROM users WHERE username=%s AND password=%s", (username, password))
             result = cursor.fetchone()
             if result:
-                message = "Login Successful!"
+                msg = 'Login Successful!'
             else:
-                message = "Invalid Credentials"
+                msg = 'Invalid Credentials.'
         except Exception as e:
-            message = "Error: " + str(e)
+            msg = f'Error: {e}'
         finally:
             if conn.is_connected():
                 cursor.close()
                 conn.close()
 
     return render_template_string("""
-    <h2>User Login</h2>
-    <form method="POST">
-        Username: <input name="username"><br>
-        Password: <input name="password" type="password"><br>
-        <input type="submit" value="Login">
-    </form>
-    <p>{{ message }}</p>
-    """, message=message)
+        <h2>User Login</h2>
+        <form method="post">
+            Username: <input name="username"><br>
+            Password: <input type="password" name="password"><br>
+            <button type="submit">Login</button>
+        </form>
+        <p>{{ msg }}</p>
+    """, msg=msg)
 
-if _name_ == "_main_":
-    app.run(debug=True)
+if __name__ == '_main_':
+    app.run()
