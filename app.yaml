@@ -1,0 +1,9 @@
+runtime: python39
+
+entrypoint: gunicorn -b :$PORT main:app
+
+env_variables:
+  DB_HOST: "sql12.freesqldatabase.com"
+  DB_USER: "sql12776900"
+  DB_PASSWORD: "bl1wU4HfJf"
+  DB_NAME: "sql12776900"
