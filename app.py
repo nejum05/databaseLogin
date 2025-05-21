@@ -6,9 +6,9 @@ app = Flask(__name__)
 # Replace with your actual db4free credentials
 DB_CONFIG = {
     'host': 'sql12.freesqldatabase.com',
-    'user': 'sql12776900',
-    'password': 'bl1wU4HfJf',
-    'database': 'sql12776900'
+    'user': 'sql12780373',
+    'password': 'plR7hiKCmt',
+    'database': 'sql12780373'
 }
 
 @app.route('/', methods=['GET', 'POST'])
