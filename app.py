@@ -1,9 +1,9 @@
-from flask import Flask, request, render_template_string
+from flask import Flask, request, render_template
 import mysql.connector
 
 app = Flask(__name__)
 
-# Replace with your actual db4free credentials
+# ✅ Use environment variables in production (not hardcoded)
 DB_CONFIG = {
     'host': 'sql12.freesqldatabase.com',
     'user': 'sql12780373',
@@ -14,6 +14,7 @@ DB_CONFIG = {
 @app.route('/', methods=['GET', 'POST'])
 def login():
     msg = ''
+    username = ''
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
@@ -24,7 +25,7 @@ def login():
             cursor.execute("SELECT * FROM login WHERE username=%s AND password=%s", (username, password))
             result = cursor.fetchone()
             if result:
-                msg = 'Login Successful!'
+                return render_template("success.html", username=username)
             else:
                 msg = 'Invalid Credentials.'
         except Exception as e:
@@ -34,15 +35,7 @@ def login():
                 cursor.close()
                 conn.close()
 
-    return render_template_string("""
-        <h2>User Login</h2>
-        <form method="post">
-            Username: <input name="username"><br>
-            Password: <input type="password" name="password"><br>
-            <button type="submit">Login</button>
-        </form>
-        <p>{{ msg }}</p>
-    """, msg=msg)
+    return render_template("login.html", msg=msg, username=username)
 
-if __name__ == '_main_':
-    app.run()
+if __name__ == "__main__":  # ✅ Fix typo from '_main_' to '__main__'
+    app.run(debug=True)
